@@ -1,0 +1,6 @@
+dist/main/**
+dist/**
+TBACharts*.html
+TBA_Match_Data*.html
+.vscode/settings.json
+__pycache__/**
