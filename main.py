@@ -30,7 +30,9 @@ team_page_template = """
     </script>
   </head>
   <body>
+    <div class="col-md-12 text-center">
     <H1>%(teamNumber)s - %(teamName)s Data</H1>
+    </div>
     <div id="chart_div"></div>
   </body>
 </html>
@@ -76,7 +78,7 @@ page_template = """
                     var str = jscode_data.getFormattedValue(0, item.column);
                 }
             }
-        var teamsheet = "TBACharts_2018week0_" + str + ".html";
+        var teamsheet = "TBACharts_" + str + ".html";
         //alert('You selected ' + document.getElementById("team_object").data + ' <--old. new--> ' + teamsheet);
         document.getElementById("team_object").data = teamsheet;
         document.getElementById("team_object").width = '1500px';
@@ -87,7 +89,7 @@ page_template = """
   </head>
   <body>
     <H1>TBA Table Data</H1>
-    <div id="table_div_jscode" style="width: 1800; height:1200; overflow:auto;"></div>
+    <div id="table_div_jscode"></div>
     <div id ="team_data"> 
     <object id="team_object" type='text/html' data='' width='0' 
     height='0' style='overflow:auto;border:2px ridge blue'></object>
@@ -280,7 +282,7 @@ for team in V.teamObjects:
     V.dictChart.update({teamNumber: dataChart})
 
     # HTML for each team
-    htmlFileTeam = ("TBACharts_%s_%s.html" % (V.event, teamNumber))
+    htmlFileTeam = ("TBACharts_%s.html" % (teamNumber))
     htmlFileTeamPath = (V.event + "\\" + htmlFileTeam)
     teamDescription = {("Match Key", "string"): [("Match Number Sort", "number"),
                        ("Auto", "number"),
