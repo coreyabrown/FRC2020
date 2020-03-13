@@ -2,5 +2,6 @@ dist/main/**
 dist/**
 TBACharts*.html
 TBA_Match_Data*.html
+2020*/**
 .vscode/settings.json
 __pycache__/**
