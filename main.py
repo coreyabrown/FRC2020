@@ -122,6 +122,10 @@ for team in V.teamObjects:
     colorPoints = 0
     endGameScore = 0
     endGameStatus = 'None' # None, Park, Hang
+    endNone = 0
+    endPark = 0
+    endHang = 0
+    endGameStatusAgg = 'H:0 P:0 N:0'
     foulPoints = 0
     totalPoints = 0
     bestScore = 0
@@ -202,8 +206,13 @@ for team in V.teamObjects:
         matchEndGame = scoreDict[alliance]["endgamePoints"]
         indClimbStatus = scoreDict[alliance][climbStatus]
 
-        # Set Trending Data
-        trendingData.update({matchCount : [matchAuto + matchCell, indClimbStatus]})
+        # Set Climb Stats
+        if indClimbStatus == 'None':
+            endNone += 1
+        elif indClimbStatus == 'Park':
+            endPark += 1
+        elif indClimbStatus == 'Hang':
+            endHang += 1
 
         # Add Other scores
         auto = auto + matchAuto
@@ -267,12 +276,13 @@ for team in V.teamObjects:
 
     # Aggregate some data
     totalRP = winRP + hangRP + colorRP
+    endGameStatusAgg = ("H:%s P:%s N:%s" % (endHang,endPark,endNone))
     worstLink = V.createlink(worstMatch, worstMatchNumber)
     bestLink = V.createlink(bestMatch, bestMatchNumber)
 
     # Create data dictionaries for the charts
     dataList = [teamNumber, teamName, matchCount, totalRP, winPercent, avgAuto,
-                avgCell, avgColor, avgEngGameScore, avgFoulPoints, avgPoints, bestLink, worstLink]
+                avgCell, avgColor, avgEngGameScore, avgFoulPoints, avgPoints, endGameStatusAgg, bestLink, worstLink]
     dataChart = [avgAuto, avgCell, avgColor, avgEngGameScore, avgFoulPoints]
 
     # Write the row for the team
@@ -319,6 +329,7 @@ description = {("Team Number", "string"): [("Team Number", "string"),
                ("End Game", "number"),
                ("Foul Points", "number"),
                ("Average Score", "number"),
+               ("End Game Stats", "string"),
                ("Best Match", "string"),
                ("Worst Match", "string")]
                }
@@ -334,7 +345,7 @@ data_table.LoadData(data)
 jscode = data_table.ToJSCode("jscode_data",
                              columns_order=("Team Number", "Team Name", "Number of Matches", "Ranking Points",
                                             "Win Percent", "Auto", "Cell", "Color Wheel", "End Game",
-                                            "Foul Points", "Average Score", "Best Match", "Worst Match"),
+                                            "Foul Points", "Average Score", "End Game Stats", "Best Match", "Worst Match"),
                              order_by="Team Number")
 # Visualization Chart
 descriptionChart = {("Team Number", "string"): [("Auto", "number"),
